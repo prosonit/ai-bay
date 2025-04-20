@@ -30,3 +30,6 @@ https://browser.geekbench.com/v6/cpu/11542360
 https://browser.geekbench.com/v6/cpu/11545840
 638/3112
 
+seste-vm4 Quad Core Xeon 20GB Memory
+https://browser.geekbench.com/v6/cpu/11552944
+370/1103
