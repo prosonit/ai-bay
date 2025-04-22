@@ -38,3 +38,13 @@ sudo microk8s.kubectl run debugdns4  -it --image=docker.io/charmedkubeflow/huggi
 
 ### Verify docker gpu support for nvidia
 sudo docker run --rm --gpus all nvidia/cuda:12.2.0-base-ubuntu22.04 nvidia-smi
+
+## Troubleshooting
+
+## CUDA error: no kernel image is available for execution on the device
+RuntimeError: CUDA error: no kernel image is available for execution on the device
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+
+import torch
+print(torch.cuda.get_arch_list())
+print(torch.version.cuda)

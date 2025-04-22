@@ -1,0 +1,34 @@
+# Dockerfile.builder
+FROM nvidia/cuda:11.8.0-devel-ubuntu22.04 as builder
+
+# System dependencies
+RUN apt-get update && \
+    apt-get install -y python3.10 python3-pip git curl build-essential \
+    libaio-dev && \
+    ln -sf /usr/bin/python3.10 /usr/bin/python && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip
+
+# Python packages
+RUN pip install cmake ninja
+
+# Install PyTorch (CUDA 11.8)
+RUN pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --extra-index-url https://download.pytorch.org/whl/cu118
+
+# Patch torch's CUDA capability check
+RUN python -c "import torch; \
+    import os; \
+    torch_cuda_ext = os.path.dirname(torch.__file__) + '/cuda/__init__.py'; \
+    text = open(torch_cuda_ext).read(); \
+    text = text.replace('major_cc >= 7', 'major_cc >= 6'); \
+    open(torch_cuda_ext, 'w').write(text)"
+
+# Clone and patch vLLM
+WORKDIR /workspace
+RUN git clone https://github.com/vllm-project/vllm.git && cd vllm \
+    && sed -i 's/sm_70/sm_61/g' vllm/transformers/custom_kernels/CMakeLists.txt \
+    && sed -i 's/sm_70/sm_61/g' cmake/torch.cmake
+
+# Install vLLM and its dependencies
+RUN cd /workspace/vllm && pip install -e .[serve]
