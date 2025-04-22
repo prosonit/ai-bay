@@ -1,0 +1,4 @@
+docker build -f Dockerfile.builder.6.1 -t vllm-cc61-builder .
+docker build -f Dockerfile -t vllm-cc61-serve .
+
+docker run --gpus all -p 8000:8000 vllm-cc61-serve

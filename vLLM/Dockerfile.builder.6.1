@@ -1,5 +1,5 @@
 # Dockerfile.builder
-FROM nvidia/cuda:11.8.0-devel-ubuntu22.04 as builder
+FROM nvidia/cuda:11.8.0-devel-ubuntu22.04 AS builder
 
 # System dependencies
 RUN apt-get update && \
@@ -8,7 +8,7 @@ RUN apt-get update && \
     ln -sf /usr/bin/python3.10 /usr/bin/python && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip 
 
 # Python packages
 RUN pip install cmake ninja
@@ -26,9 +26,15 @@ RUN python -c "import torch; \
 
 # Clone and patch vLLM
 WORKDIR /workspace
-RUN git clone https://github.com/vllm-project/vllm.git && cd vllm \
-    && sed -i 's/sm_70/sm_61/g' vllm/transformers/custom_kernels/CMakeLists.txt \
-    && sed -i 's/sm_70/sm_61/g' cmake/torch.cmake
+RUN git clone https://github.com/vllm-project/vllm.git && \
+    cd vllm && \
+    git checkout v0.8.4  
+    
+
+
+    #ls -la \
+    #sed -i 's/sm_70/sm_61/g' ../cmake/torch.cmake && \
+    #pip install -e .[serve]
 
 # Install vLLM and its dependencies
 RUN cd /workspace/vllm && pip install -e .[serve]
