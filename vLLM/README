@@ -5,13 +5,13 @@ docker run --gpus all -p 8000:8000 vllm-cc61-serve
 
 
 
-docker run --gpus all -it \
+docker run --gpus all -it --rm \
     -p 8000:8000 \
     -v /home/nitro/hf_cache:/root/.cache/huggingface \
     prosonit/vllm-serve-6-1:1.0 serve TinyLlama/TinyLlama-1.1B-Chat-v0.6 --dtype=float16
 
 
-docker run --gpus all -it \
+docker run --gpus all -it --rm \
     -v /home/nitro/hf_cache:/root/.cache/huggingface \
     prosonit/vllm-serve-6-1:1.0 bench --model TinyLlama/TinyLlama-1.1B-Chat-v0.6 --dtype=float16
 
