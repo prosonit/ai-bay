@@ -21,6 +21,5 @@ ENV TORCH_CUDA_ARCH_LIST="6.1"
 # REST API will be on port 8000 by default
 EXPOSE 8000
 
-# Default: Start vLLM serve with given model
-# (Change the model path as needed - here uses a HuggingFace model)
-CMD ["python", "-m", "vllm.entrypoints.openai.api_server", "--model", "meta-llama/Llama-2-7b-hf"]
+ENTRYPOINT ["vllm"]
+CMD []

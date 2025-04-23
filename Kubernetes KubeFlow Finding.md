@@ -45,6 +45,18 @@ sudo docker run --rm --gpus all nvidia/cuda:12.2.0-base-ubuntu22.04 nvidia-smi
 RuntimeError: CUDA error: no kernel image is available for execution on the device
 CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
 
+This means that the nvidia gpu is compatable with the cuda version required for pyTorch. vLLM requires compute compability 7.0 and example Quadrio P1000 supports 6.1
+
 import torch
 print(torch.cuda.get_arch_list())
 print(torch.version.cuda)
+
+### Try to fix install of drivers in docker
+_______________________________________________
+curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey  | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+
+curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo snap restart docker

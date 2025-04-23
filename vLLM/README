@@ -2,3 +2,20 @@ docker build -f Dockerfile.builder.6.1 -t vllm-cc61-builder .
 docker build -f Dockerfile -t vllm-cc61-serve .
 
 docker run --gpus all -p 8000:8000 vllm-cc61-serve
+
+
+
+-v /my/host/hf_cache:/root/.cache/huggingface
+
+
+docker run --gpus all -it \
+    -p 8000:8000 \
+    -v /my/host/hf_cache:/root/.cache/huggingface \
+    vllm-cc61-serve serve TinyLlama/TinyLlama-1.1B-Chat-v0.6
+
+
+docker run --gpus all -it \
+    -v /my/host/hf_cache:/root/.cache/huggingface \
+    vllm-cc61-serve bench --model TinyLlama/TinyLlama-1.1B-Chat-v0.6
+    
+vllm serve TinyLlama/TinyLlama-1.1B-Chat-v0.6 --dtype=float16
