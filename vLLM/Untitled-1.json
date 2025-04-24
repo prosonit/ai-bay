@@ -1,0 +1,166 @@
+{
+  "messages": [
+    {"role": "system", "content": " 
+    You are an awesome product specification writer.
+    Below is a specification of a product in JSON format our re-seller customer is about to buy. The product is a liner to a pool.
+    And maybe a cover and installation.
+
+    Write a product specification of this product with indentation for sub choices.
+    Also write a descriptive text and explain the product. This will be shown to the customer, please use a nice and polite tone.
+    Please write all in Swedish. Provide one version of each in text and HTML.
+
+    The response will be parsed by a program so please wrap response parts in the following tags; the product specification text
+    with line breaks and 3 spaces for each tab <productSpecificationText></productSpecificationText>, the product specification
+    HTML <productSpecificationHtml></productSpecificationHtml>. And the product description text
+    <productDescriptionText></productDescriptionText>  and the product description HTML <productDescriptionHtml></productDescriptionHtml>.
+
+    For productSpecificationText it is very important that it produces an indented hierarchy of the product specification and the
+    same indentation should be used in HTML for the productSpecificationHtml."},    
+    {"role": "user", "content": "Exempel på user input: {
+  "Name": "Vilken form har pooolen?",
+  "Choice": "Rektangulär",
+  "Description": "",
+  "Children": [
+    {
+      "Name": "Vill du ha en trappa?",
+      "Choice": "Ja. 3 steg",
+      "Description": "",
+      "Children": [
+        {
+          "Name": "Steg 1",
+          "Choice": "",
+          "Description": "",
+          "Children": [
+            {
+              "Name": "TotalLength",
+              "Choice": "300 Millimeter",
+              "Description": " Djup steg 1",
+              "Children": []
+            },
+            {
+              "Name": "TotalHeight",
+              "Choice": "25 Centimeter",
+              "Description": "Höjd steg 1",
+              "Children": []
+            }
+          ]
+        },
+        {
+          "Name": "Steg 2",
+          "Choice": "",
+          "Description": "",
+          "Children": [
+            {
+              "Name": "TotalLength",
+              "Choice": "300 Millimeter",
+              "Description": "Djup steg 2",
+              "Children": []
+            },
+            {
+              "Name": "TotalHeight",
+              "Choice": "25 Centimeter",
+              "Description": "Höjd steg 2",
+              "Children": []
+            }
+          ]
+        },
+        {
+          "Name": "Steg 3",
+          "Choice": "",
+          "Description": "",
+          "Children": [
+            {
+              "Name": "TotalLength",
+              "Choice": "350 Centimeter",
+              "Description": "Djup steg 3",
+              "Children": []
+            },
+            {
+              "Name": "TotalHeight",
+              "Choice": "",
+              "Description": "Höjd steg 3",
+              "Children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Montering?",
+      "Choice": "Nej tack",
+      "Description": "",
+      "Children": []
+    }
+  ]
+}"},
+    {"role": "assistant", "content": "Ger output:
+<productSpecificationText>Vilken form har pooolen?
+   - Rektangulär
+Vill du ha en trappa?
+   - Ja. 3 steg
+      Steg 1:
+         Längd: 300 Millimeter (Djup steg 1)
+         Höjd: 25 Centimeter (Höjd steg 1)
+      Steg 2:
+         Längd: 300 Millimeter (Djup steg 2)
+         Höjd: 25 Centimeter (Höjd steg 2)
+      Steg 3:
+         Längd: 350 Centimeter (Djup steg 3)
+         Höjd: Ej angivet (Höjd steg 3)
+Montering?
+   - Nej tack</productSpecificationText><productSpecificationHtml> <ul> <li><strong>Vilken form har pooolen?</strong> - Rektangulär <ul> <li><strong>Vill du ha en trappa?</strong> - Ja. 3 steg <ul> <li><strong>Steg 1:</strong> <ul> <li>Längd: 300 Millimeter (Djup steg 1)</li> <li>Höjd: 25 Centimeter (Höjd steg 1)</li> </ul> </li> <li><strong>Steg 2:</strong> <ul> <li>Längd: 300 Millimeter (Djup steg 2)</li> <li>Höjd: 25 Centimeter (Höjd steg 2)</li> </ul> </li> <li><strong>Steg 3:</strong> <ul> <li>Längd: 350 Centimeter (Djup steg 3)</li> <li>Höjd: Ej angivet (Höjd steg 3)</li> </ul> </li> </ul> </li> <li><strong>Montering?</strong> - Nej tack</li> </ul> </li> </ul> </productSpecificationHtml> <productDescriptionText> Denna exklusiva pool-liner är designad med omsorg för att passa en rektangulär pool och skapa en attraktiv utomhusmiljö. Produkten innehåller ett valfritt trappsystem med tre steg, där varje steg har optimala mått för både djup och höjd, vilket garanterar en säker och bekväm åtkomst till poolen. Noterbart är att installation inte ingår, vilket ger dig möjlighet att anlita en entreprenör enligt dina önskemål. Tack för att du valt oss – vi ser fram emot att bidra till din poolupplevelse med hög kvalitet och omtanke. </productDescriptionText> <productDescriptionHtml> <p>Denna exklusiva pool-liner är designad med omsorg för att passa en rektangulär pool och skapa en attraktiv utomhusmiljö. Produkten innehåller ett valfritt trappsystem med tre steg, där varje steg har optimala mått för både djup och höjd, vilket garanterar en säker och bekväm åtkomst till poolen.</p> <p>Noterbart är att installation inte ingår, vilket ger dig möjlighet att anlita en entreprenör enligt dina önskemål. Tack för att du valt oss – vi ser fram emot att bidra till din poolupplevelse med hög kvalitet och omtanke.</p> </productDescriptionHtml>
+"},
+    
+    {"role": "user", "content": "{
+  "Name": "Poolform",
+  "Choice": "Rektangul\u00E4r",
+  "Description": "",
+  "Children": [
+    {
+      "Name": "Storlek pool i cm",
+      "Choice": "Ange h\u00F6jd, bredd \u0026 djup",
+      "Description": "",
+      "Children": []
+    },
+    {
+      "Name": "V\u00E4lj typ av Liner",
+      "Choice": "M\u00F6nstrade Liners",
+      "Description": "",
+      "Children": [
+        {
+          "Name": "V\u00E4lj m\u00F6nster",
+          "Choice": "Black State",
+          "Description": "",
+          "Children": []
+        }
+      ]
+    },
+    {
+      "Name": "V\u00E4lj typ av inf\u00E4stning",
+      "Choice": "Snap-in",
+      "Description": "",
+      "Children": []
+    },
+    {
+      "Name": "",
+      "Choice": "Ingen Djupdel",
+      "Description": "",
+      "Children": []
+    },
+    {
+      "Name": "",
+      "Choice": "H\u00F6rntrappa (artnr: 110122)",
+      "Description": "",
+      "Children": []
+    },
+    {
+      "Name": "",
+      "Choice": "Inget Poolskydd",
+      "Description": "",
+      "Children": []
+    }
+  ]
+}
+"}
+  ]
+}
