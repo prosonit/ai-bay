@@ -1,5 +1,5 @@
 # builder stage
-FROM prosonit/vllm-builder-6-1:1.0 AS builder
+FROM prosonit/vllm-builder-6-1:2.0 AS builder
 
 # production image
 FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04
@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y python3 python3-pip libaio-dev libexpat
 # copy entire python install from builder
 #COPY --from=builder /usr/local/lib/python3.10 /usr/local/lib/python3.10
 #COPY --from=builder /usr/bin/python* /usr/bin/
+RUN rm -rf /usr/local/lib/python3.10/dist-packages
 COPY --from=builder /usr/local/lib/python3.10/dist-packages /usr/local/lib/python3.10/dist-packages
 COPY --from=builder /usr/local/bin/vllm /usr/local/bin/vllm
 
@@ -27,4 +28,5 @@ ENV PATH="/usr/local/bin:$PATH"
 
 # optionally set entrypoint
 ENTRYPOINT ["vllm"]
+
 CMD ["--help"]
