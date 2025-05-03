@@ -212,6 +212,125 @@ docker run --runtime nvidia --gpus all \
     --cpu-offload-gb 16
 
 
+
+1. PyTorch (pytorch_model.bin)
+What is it?
+The standard (full-precision) model format for Hugging Face Transformers and native PyTorch.
+File extension:
+pytorch_model.bin (sometimes .pt)
+Typical precision:
+16-bit (fp16) or 32-bit (fp32)
+Compatibility:
+Works everywhere PyTorch is supported (CPU, GPU, TPU).
+Use case:
+Training, fine-tuning, and highest-accuracy inference.
+Size:
+Larger file sizes; models can be tens of gigabytes.
+Summary:
+Most flexible and widely used, but requires more memory and compute.
+
+2. AWQ
+What is it?
+Activation-aware Weight Quantization – a newer quantization technique designed to reduce model size and speed up inference without much loss in accuracy.
+File extension:
+Often .safetensors or .bin, but marked "AWQ".
+Typical precision:
+4-bit or 8-bit
+Compatibility:
+Supported by vLLM, autoawq, and some optimized inference engines.
+Use case:
+Memory-efficient, fast inference at near-original accuracy.
+Size:
+Much smaller, e.g., a 7B model could fit in ~4GB VRAM.
+Summary:
+For users who want fast, memory-efficient inference with very little accuracy drop.
+
+3. GPTQ
+What is it?
+GPT Quantization – one of the first major methods for effective 4-bit quantization of large language models, especially Llama-family.
+File extension:
+Usually .safetensors or .bin, marked "GPTQ".
+Typical precision:
+4-bit
+Compatibility:
+Supported by vLLM, exllama, GPTQ-for-LLaMa, etc.
+Use case:
+Extremely efficient inference, especially popular in LLM deployment.
+Size:
+Even smaller than AWQ (similar size to 4-bit AWQ).
+Summary:
+Mainstream for running big LLMs on commodity GPUs, sometimes requires special runners.
+
+
+4. bitsandbytes
+What is it?
+A library for quantized/efficient inference and training (by Tim Dettmers).
+Supports 8-bit, 4-bit and other quantization for both training and inference.
+File extension:
+Still often .bin, .safetensors, or Hugging Face format, but marked as 8-bit, 4-bit etc.
+Precision:
+8-bit, 4-bit, etc.
+Compatibility:
+Hugging Face Transformers (with special loading), some inference engines.
+Use case:
+Allows full fine-tuning and inference with much less memory.
+Summary:
+Lets you load and train (and run) big models on consumer hardware with a big cut in RAM/VRAM needs.
+
+5. GGUF
+What is it?
+A file format ("GGML Unified Format") for language models – designed for CPU inference with llama.cpp, Koboldcpp, and other lightweight runners outside mainstream ML frameworks.
+File extension:
+.gguf
+Typical precision:
+8-bit, 6-bit, 5-bit, 4-bit quantization
+Compatibility:
+Not for PyTorch. For llama.cpp family tools: run models on Mac/Windows/Linux (CPU or Apple Silicon, some support for CUDA).
+Use case:
+Run LLMs on laptops/desktops/phones without any ML frameworks or GPUs.
+Limitations:
+Most often CPU-based, occasionally limited CUDA support (very recent).
+Not compatible with vLLM or standard PyTorch.
+
+
+
+
+
+
+ docker run --runtime nvidia --gpus all     -v ~/.cache/huggingface:/root/.cache/huggingface     --env "HUGGING_FACE_HUB_TOKEN=<TOKEN>"     -p 8000:8000     --ipc=host     ghcr.io/sasha0552/vllm:v0.8.1     --model jakiAJK/DeepSeek-R1-Distill-Llama-8B_GPTQ-int4 --dtype=half  --cpu-offload-gb 16
+
+
+ deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
+
+
+ docker run --runtime nvidia --gpus all \
+  -v ~/.cache/huggingface:/root/.cache/huggingface \
+  --env "HUGGING_FACE_HUB_TOKEN=<TOKEN>" \
+  -p 8000:8000 \
+  --ipc=host \
+  ghcr.io/sasha0552/vllm:v0.8.1 \
+  python3 -m vllm.entrypoints.openai.api_server \
+    --model TheBloke/deepseek-llm-7B-chat-GPTQ \
+    --dtype=half \
+    --cpu-offload-gb 16
+
+
+docker run --runtime nvidia --gpus all -v ~/.cache/huggingface:/root/.cache/huggingface --env "HUGGING_FACE_HUB_TOKEN=<TOKEN>" -p 8000:8000 --ipc=host ghcr.io/sasha0552/vllm:v0.8.1 python3 -m vllm.entrypoints.openai.api_server --model TheBloke/deepseek-llm-7B-chat-GPTQ --dtype=half --cpu-offload-gb 16
+
+SEEMS TO WORK :)
+docker run --runtime nvidia --gpus all \
+  -v ~/.cache/huggingface:/root/.cache/huggingface \
+  --env "HUGGING_FACE_HUB_TOKEN=<TOKEN>" \
+  -p 8000:8000 \
+  --ipc=host \
+  --entrypoint python3 \
+  ghcr.io/sasha0552/vllm:v0.8.1 \
+  -m vllm.entrypoints.openai.api_server \
+    --model TheBloke/deepseek-llm-7B-chat-GPTQ \
+    --dtype=half \
+    --cpu-offload-gb 16
+
+
 ssh-copy-id -i ~/.ssh/id_ed25519.pub nitro@10.22.5.138    
 
 
